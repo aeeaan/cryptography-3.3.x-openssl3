@@ -14,6 +14,11 @@ from .utils import (
 )
 
 
+def pytest_configure(config):
+    if config.getoption("--enable-fips"):
+        openssl_backend._enable_fips()
+
+
 def pytest_report_header(config):
     return "\n".join(
         [
@@ -25,6 +30,7 @@ def pytest_report_header(config):
 
 def pytest_addoption(parser):
     parser.addoption("--wycheproof-root", default=None)
+    parser.addoption("--enable-fips", default=False)
 
 
 def pytest_generate_tests(metafunc):

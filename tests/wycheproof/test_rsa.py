@@ -101,6 +101,14 @@ def test_rsa_pkcs1v15_signature_generation(backend, wycheproof):
     )
     digest = _DIGESTS[wycheproof.testgroup["sha"]]
 
+    if backend._fips_enabled:
+        if key.key_size < 2048 or isinstance(digest, hashes.SHA1):
+            pytest.skip(
+                "Invalid params for FIPS. key: {} bits, digest: {}".format(
+                    key.key_size, digest.name
+                )
+            )
+
     sig = key.sign(
         binascii.unhexlify(wycheproof.testcase["msg"]),
         padding.PKCS1v15(),
