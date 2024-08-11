@@ -113,8 +113,8 @@ class Binding(object):
     ffi = ffi
     _lib_loaded = False
     _init_lock = threading.Lock()
-    _legacy_provider: typing.Any = None
-    _default_provider: typing.Any = None
+    _legacy_provider = types.NoneType
+    _default_provider = types.NoneType
 
     def __init__(self):
         self._ensure_ffi_initialized()
